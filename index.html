@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -180,6 +180,251 @@
         </div>
         <div class="img2">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbCLgmFhKzyBJvFN6op-8KmP5NzvbXfcKrow&s" alt="">
+        </div>
+    </div>
+
+    <div class="converter-container">
+        <h2>Temperature Converter</h2>
+        <label for="inputTemp">Enter temperature:</label>
+        <input type="number" id="inputTemp" placeholder="e.g., 37" step="0.01">
+
+        <label for="inputScale">Input scale:</label>
+        <select id="inputScale">
+            <option value="celsius">Celsius</option>
+            <option value="fahrenheit">Fahrenheit</option>
+            <option value="kelvin">Kelvin</option>
+        </select>
+
+        <label for="targetScale">Target scale:</label>
+        <select id="targetScale">
+            <option value="celsius">Celsius</option>
+            <option value="fahrenheit">Fahrenheit</option>
+            <option value="kelvin">Kelvin</option>
+        </select>
+
+        <button id="convertBtn" onclick="handleConversion()">Convert</button>
+
+        <div id="output"></div>
+    </div>
+
+    <p>Thank you for using our Temperature Conversion Guide!</p>
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Temperature Conversion Guide</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #007BFF;
+        }
+
+        h2 {
+            margin-bottom: 0;
+        }
+
+        p, ul {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        /* Enhanced content-section styling */
+        .content-section {
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Converter container styling */
+        .converter-container {
+            padding: 20px;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            background-color: #e7f3ff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for form elements */
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Styling for images section */
+        .content-section2 {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        /* Images styling */
+        .img1 img,
+        .img2 img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content-section2{
+            display:flex;
+            flex-direction:row;
+        }
+        .img1 img{
+            height:300px;
+            width:400px;
+        }
+        .img2 img{
+            height:300px;
+            width:735px;
+        }
+
+        /* Media query for mobile view */
+        @media (max-width: 768px) {
+            .content-section2 {
+                flex-direction: column;
+            }
+
+            /* Adjust input and button widths for mobile */
+            input,
+            select,
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        // JavaScript code for temperature conversion
+        function convertTemperature(inputTemp, inputScale, targetScale) {
+            let result;
+
+            // Handle different conversions
+            if (inputScale === targetScale) {
+                result = inputTemp;
+            } else if (inputScale === 'celsius') {
+                if (targetScale === 'fahrenheit') {
+                    result = (inputTemp * 9 / 5) + 32;
+                } else if (targetScale === 'kelvin') {
+                    result = inputTemp + 273.15;
+                }
+            } else if (inputScale === 'fahrenheit') {
+                if (targetScale === 'celsius') {
+                    result = (inputTemp - 32) * 5 / 9;
+                } else if (targetScale === 'kelvin') {
+                    result = (inputTemp - 32) * 5 / 9 + 273.15;
+                }
+            } else if (inputScale === 'kelvin') {
+                if (targetScale === 'celsius') {
+                    result = inputTemp - 273.15;
+                } else if (targetScale === 'fahrenheit') {
+                    result = (inputTemp - 273.15) * 9 / 5 + 32;
+                }
+            }
+
+            return result;
+        }
+
+        // Event handler for the convert button
+        function handleConversion() {
+            // Get user input and selected scales
+            const inputTemp = parseFloat(document.getElementById('inputTemp').value);
+            const inputScale = document.getElementById('inputScale').value;
+            const targetScale = document.getElementById('targetScale').value;
+
+            // Validate input
+            if (isNaN(inputTemp)) {
+                document.getElementById('output').innerText = "Please enter a valid temperature.";
+                return;
+            }
+
+            // Perform the conversion
+            const result = convertTemperature(inputTemp, inputScale, targetScale);
+
+            // Determine the units based on scales
+            let inputUnit;
+            let outputUnit;
+
+            if (inputScale === 'celsius') {
+                inputUnit = 'degrees Celsius';
+            } else if (inputScale === 'fahrenheit') {
+                inputUnit = 'degrees Fahrenheit';
+            } else if (inputScale === 'kelvin') {
+                inputUnit = 'Kelvin';
+            }
+
+            if (targetScale === 'celsius') {
+                outputUnit = 'degrees Celsius';
+            } else if (targetScale === 'fahrenheit') {
+                outputUnit = 'degrees Fahrenheit';
+            } else if (targetScale === 'kelvin') {
+                outputUnit = 'Kelvin';
+            }
+
+            // Display the result in the specified format
+            document.getElementById('output').innerText = `Your ${inputTemp.toFixed(2)} ${inputUnit} is equal to ${result.toFixed(2)} ${outputUnit}.`;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Temperature Conversion Guide</h1>
+    
+    <div class="content-section">
+        <h2>Celsius</h2>
+        <p>The Celsius scale (°C) is a temperature scale based on the freezing point of water at 0 degrees and the boiling point of water at 100 degrees at sea level.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Fahrenheit</h2>
+        <p>The Fahrenheit scale (°F) is a temperature scale based on the freezing point of water at 32 degrees and the boiling point of water at 212 degrees at sea level.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Kelvin</h2>
+        <p>The Kelvin scale (K) is an absolute temperature scale starting from absolute zero, which is approximately -273.15 degrees Celsius.</p>
+    </div>
+
+    <div class="content-section2">
+        <div class="img1">
+                <img src="https://media.licdn.com/dms/image/D5622AQEIKUVJL6nh0A/feedshare-shrink_800/0/1670683099134?e=2147483647&v=beta&t=sGB2eGJtH9LN9uw16ArfSHAcjwHHFavDIS-9IrbKKm4" alt="Temperature Gauge Image">
+        </div>
+        <div class="img2">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbCLgmFhKzyBJvFN6op-8KmP5NzvbXfcKrow&s" alt="Temperature Conversion Chart Image">
         </div>
     </div>
 
